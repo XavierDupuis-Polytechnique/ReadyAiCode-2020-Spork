@@ -6,6 +6,6 @@ class PlayerPosition:
     '''
 
     def __init__(self, h=Vector2(), n=[], b=[]):
-        self.Head = h
-        self.Neck = n
-        self.Body = b
+        self.Head = h # (x,y)
+        self.Neck = n # [(x1,y1), (x2,y2)...]
+        self.Body = b # [(x1,y1), (x2,y2)...]
