@@ -63,13 +63,12 @@ class Brain(metaclass=Singleton):
         for action in possible_actions:
             # Check if wall up.
             if action == Direction._UP:
-                if map2d[player_position_head.Y + 1][player_position_head.X] != 'p3':
+                if map2d[player_position_head.Y - 1][player_position_head.X] != 'p3':
                     new_possible_actions.append(action)
                     print('UP')
-            
             # Check if wall down.
             elif action == Direction._DOWN:
-                if map2d[player_position_head.Y - 1][player_position_head.X] != 'p3':
+                if map2d[player_position_head.Y + 1][player_position_head.X] != 'p3':
                     new_possible_actions.append(action)
                     print('DOWN')
             # Check if wall left.
@@ -132,10 +131,11 @@ class Brain(metaclass=Singleton):
         Brain.step_compter+=1
         currentPlayer = players[str(turn_info.SelfId)]
         #return Brain.directions_possibles[Brain.step_compter%len(Brain.directions_possibles)]
-        a = Brain.wallcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
-        b = Brain.neckcheck(currentPlayer.Head, a, turn_info)
-        (b[0],b[1]) = (b[1],b[0])
-        return b[0]
+        
+        Brain.directions_possibles = Brain.neckcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
+        Brain.directions_possibles = Brain.wallcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
+        # (b[0],b[1]) = (b[1],b[0])
+        return Brain.directions_possibles[0]
         
     def on_finalized(turn_info: TurnInformation):
         '''
