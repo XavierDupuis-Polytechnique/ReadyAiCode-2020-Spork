@@ -35,24 +35,23 @@ class Brain(metaclass=Singleton):
         print(i, j)
         for action in possible_actions:
             # Check if wall up.
-            
             if action == Direction._UP:
-                if (map2d[j - 1][i] != 'W') and (map2d[j - 1][i] != ('p' + str(turn_info.SelfId)) :
+                if (map2d[j - 1][i] != 'W') and (map2d[j - 1][i] != ('p' + str(turn_info.SelfId))) :
                     new_possible_actions.append(action)
                     print('UP')
             # Check if wall down.
             elif action == Direction._DOWN:
-                if (map2d[j + 1][i] != 'W') and (map2d[j + 1][i] != ('p' + str(turn_info.SelfId)) :
+                if (map2d[j + 1][i] != 'W') and (map2d[j + 1][i] != ('p' + str(turn_info.SelfId))) :
                     new_possible_actions.append(action)
                     print('DOWN')
             # Check if wall left.
             elif action == Direction._LEFT:
-                if (map2d[j][i- 1] != 'W') and (map2d[j][i - 1] != ('p' + str(turn_info.SelfId)) :
+                if (map2d[j][i- 1] != 'W') and (map2d[j][i - 1] != ('p' + str(turn_info.SelfId))) :
                     new_possible_actions.append(action)
                     print('LEFT')
             # Check if wall right.
             elif action == Direction._RIGHT:
-                if (map2d[j][i + 1] != 'W') and (map2d[j][i + 1] != ('p' + str(turn_info.SelfId)) :
+                if (map2d[j][i + 1] != 'W') and (map2d[j][i + 1] != ('p' + str(turn_info.SelfId))) :
                     new_possible_actions.append(action)
                     print('RIGHT')
         print(len(new_possible_actions))  
@@ -85,6 +84,16 @@ class Brain(metaclass=Singleton):
                 r_counter -= 1
         return players_position
 
+
+    def CalculMovement(movement):
+        for i in range(50):
+            for i in range(2):
+                movement.append(Direction._UP)
+            movement.append(Direction._RIGHT)
+            movement.append(Direction._DOWN)
+            movement.append(Direction._LEFT)
+        return movement
+                      
     
     def on_next_move(turn_info: TurnInformation):
         Brain.directions_possibles = Brain.DIRECTIONS_POSSIBLES
@@ -106,8 +115,19 @@ class Brain(metaclass=Singleton):
         #Brain.directions_possibles = Brain.neckcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
         #Brain.directions_possibles = Brain.wallcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
         # (b[0],b[1]) = (b[1],b[0])
-        return Brain.wallcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)[0]
+        movement = [Direction._UP, Direction._UP, Direction._RIGHT, Direction._DOWN, Direction._LEFT]
+        movement = Brain.CalculMovement(movement)
         
+        mouvementsPossibles = Brain.ObstacleCheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
+
+        if (movement[Brain.step_compter] not in mouvementsPossibles):
+            return mouvementsPossibles[0]
+        else:
+            Brain.step_compter +=1
+            return movement[Brain.step_compter]
+        
+        #return Brain.wallcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)[0]
+
     def on_finalized(turn_info: TurnInformation):
         '''
         Once the game is finished, this method is triggered with the final state of the map. 
