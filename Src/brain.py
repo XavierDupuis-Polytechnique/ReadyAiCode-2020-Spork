@@ -33,56 +33,56 @@ class Brain(metaclass=Singleton):
         for action in possible_actions:
             # Check if wall up.
             if action == Direction._UP:
-                if map2d[player_position_head.Y + 1][player_position_head.X] != 'W':
+                if (map2d[player_position_head.Y + 1][player_position_head.X] != 'W') and (map2d[player_position_head.Y + 1][player_position_head.X] != 'p3') :
                     new_possible_actions.append(action)
                     print('UP')
-            
             # Check if wall down.
             elif action == Direction._DOWN:
-                if map2d[player_position_head.Y - 1][player_position_head.X] != 'W':
+                if (map2d[player_position_head.Y - 1][player_position_head.X] != 'W') and (map2d[player_position_head.Y - 1][player_position_head.X] != 'p3') :
                     new_possible_actions.append(action)
                     print('DOWN')
             # Check if wall left.
             elif action == Direction._LEFT:
-                if map2d[player_position_head.Y][player_position_head.X - 1] != 'W':
+                if (map2d[player_position_head.Y][player_position_head.X - 1] != 'W') and (map2d[player_position_head.Y][player_position_head.X - 1] != 'p3') :
                     new_possible_actions.append(action)
                     print('LEFT')
             # Check if wall right.
             elif action == Direction._RIGHT:
-                if map2d[player_position_head.Y][player_position_head.X + 1] != 'W':
+                if (map2d[player_position_head.Y][player_position_head.X + 1] != 'W') and (map2d[player_position_head.Y][player_position_head.X + 1] != 'p3') :
                     new_possible_actions.append(action)
                     print('RIGHT')
         print(len(new_possible_actions))  
         return new_possible_actions
     
-    def neckcheck(player_position_head : Vector2, possible_actions, turn_info):
-        #str(turn_info.SelfId)
-        new_possible_actions = []
-        map2d = np.array(turn_info.Map).reshape((turn_info.MapWidth, turn_info.MapWidth))
-        map2d = map2d.tolist()
-        for action in possible_actions:
-            # Check if wall up.
-            if action == Direction._UP:
-                if map2d[player_position_head.Y - 1][player_position_head.X] != 'p3':
-                    new_possible_actions.append(action)
-                    print('UP')
-            # Check if wall down.
-            elif action == Direction._DOWN:
-                if map2d[player_position_head.Y + 1][player_position_head.X] != 'p3':
-                    new_possible_actions.append(action)
-                    print('DOWN')
-            # Check if wall left.
-            elif action == Direction._LEFT:
-                if map2d[player_position_head.Y][player_position_head.X - 1] != 'p3':
-                    new_possible_actions.append(action)
-                    print('LEFT')
-            # Check if wall right.
-            elif action == Direction._RIGHT:
-                if map2d[player_position_head.Y][player_position_head.X + 1] != 'p3':
-                    new_possible_actions.append(action)
-                    print('RIGHT')
-        print(len(new_possible_actions))  
-        return new_possible_actions
+    # def neckcheck(player_position_head : Vector2, possible_actions, turn_info):
+    #     #str(turn_info.SelfId)
+    #     new_possible_actions = []
+    #     map2d = np.array(turn_info.Map).reshape((turn_info.MapWidth, turn_info.MapWidth))
+    #     print(map2d)
+    #     map2d = map2d.tolist()
+    #     for action in possible_actions:
+    #         # Check if wall up.
+    #         if action == Direction._UP:
+    #             if map2d[player_position_head.Y - 1][player_position_head.X] != 'p3':
+    #                 new_possible_actions.append(action)
+    #                 print('UP')
+    #         # Check if wall down.
+    #         elif action == Direction._DOWN:
+    #             if map2d[player_position_head.Y + 1][player_position_head.X] != 'p3':
+    #                 new_possible_actions.append(action)
+    #                 print('DOWN')
+    #         # Check if wall left.
+    #         elif action == Direction._LEFT:
+    #             if map2d[player_position_head.Y][player_position_head.X - 1] != 'p3':
+    #                 new_possible_actions.append(action)
+    #                 print('LEFT')
+    #         # Check if wall right.
+    #         elif action == Direction._RIGHT:
+    #             if map2d[player_position_head.Y][player_position_head.X + 1] != 'p3':
+    #                 new_possible_actions.append(action)
+    #                 print('RIGHT')
+    #     print(len(new_possible_actions))  
+    #     return new_possible_actions
 
     # def calculate_risk(dir):
     
@@ -132,10 +132,10 @@ class Brain(metaclass=Singleton):
         currentPlayer = players[str(turn_info.SelfId)]
         #return Brain.directions_possibles[Brain.step_compter%len(Brain.directions_possibles)]
         
-        Brain.directions_possibles = Brain.neckcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
-        Brain.directions_possibles = Brain.wallcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
+        #Brain.directions_possibles = Brain.neckcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
+        #Brain.directions_possibles = Brain.wallcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
         # (b[0],b[1]) = (b[1],b[0])
-        return Brain.directions_possibles[0]
+        return Brain.wallcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)[0]
         
     def on_finalized(turn_info: TurnInformation):
         '''
