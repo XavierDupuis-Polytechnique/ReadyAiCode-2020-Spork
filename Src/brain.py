@@ -19,73 +19,44 @@ class Brain(metaclass=Singleton):
 
     #MUR
     
-
-    #sates : (xplore : augment the area, attack:path finding to kill, defend : still /wtv.)
-    #but:
     #PlayerPosition.Head = vector2()
     #PlayerPosition.Body = []
     #PlayerPosition.Neck = []
-    def wallcheck(player_position_head : Vector2, possible_actions, turn_info):
+
+    def ObstacleCheck(player_position_head : Vector2, possible_actions, turn_info):
         new_possible_actions = []
         map2d = np.array(turn_info.Map).reshape((turn_info.MapWidth, turn_info.MapWidth))
         print(map2d)
         map2d = map2d.tolist()
+        print(player_position_head.X,player_position_head.Y)
+        
+        j = turn_info.MapWidth - player_position_head.Y - 1
+        i = player_position_head.X
+        print(i, j)
         for action in possible_actions:
             # Check if wall up.
+            
             if action == Direction._UP:
-                if (map2d[player_position_head.Y + 1][player_position_head.X] != 'W') and (map2d[player_position_head.Y + 1][player_position_head.X] != 'p3') :
+                if (map2d[j - 1][i] != 'W') and (map2d[j - 1][i] != ('p' + str(turn_info.SelfId)) :
                     new_possible_actions.append(action)
                     print('UP')
             # Check if wall down.
             elif action == Direction._DOWN:
-                if (map2d[player_position_head.Y - 1][player_position_head.X] != 'W') and (map2d[player_position_head.Y - 1][player_position_head.X] != 'p3') :
+                if (map2d[j + 1][i] != 'W') and (map2d[j + 1][i] != ('p' + str(turn_info.SelfId)) :
                     new_possible_actions.append(action)
                     print('DOWN')
             # Check if wall left.
             elif action == Direction._LEFT:
-                if (map2d[player_position_head.Y][player_position_head.X - 1] != 'W') and (map2d[player_position_head.Y][player_position_head.X - 1] != 'p3') :
+                if (map2d[j][i- 1] != 'W') and (map2d[j][i - 1] != ('p' + str(turn_info.SelfId)) :
                     new_possible_actions.append(action)
                     print('LEFT')
             # Check if wall right.
             elif action == Direction._RIGHT:
-                if (map2d[player_position_head.Y][player_position_head.X + 1] != 'W') and (map2d[player_position_head.Y][player_position_head.X + 1] != 'p3') :
+                if (map2d[j][i + 1] != 'W') and (map2d[j][i + 1] != ('p' + str(turn_info.SelfId)) :
                     new_possible_actions.append(action)
                     print('RIGHT')
         print(len(new_possible_actions))  
         return new_possible_actions
-    
-    # def neckcheck(player_position_head : Vector2, possible_actions, turn_info):
-    #     #str(turn_info.SelfId)
-    #     new_possible_actions = []
-    #     map2d = np.array(turn_info.Map).reshape((turn_info.MapWidth, turn_info.MapWidth))
-    #     print(map2d)
-    #     map2d = map2d.tolist()
-    #     for action in possible_actions:
-    #         # Check if wall up.
-    #         if action == Direction._UP:
-    #             if map2d[player_position_head.Y - 1][player_position_head.X] != 'p3':
-    #                 new_possible_actions.append(action)
-    #                 print('UP')
-    #         # Check if wall down.
-    #         elif action == Direction._DOWN:
-    #             if map2d[player_position_head.Y + 1][player_position_head.X] != 'p3':
-    #                 new_possible_actions.append(action)
-    #                 print('DOWN')
-    #         # Check if wall left.
-    #         elif action == Direction._LEFT:
-    #             if map2d[player_position_head.Y][player_position_head.X - 1] != 'p3':
-    #                 new_possible_actions.append(action)
-    #                 print('LEFT')
-    #         # Check if wall right.
-    #         elif action == Direction._RIGHT:
-    #             if map2d[player_position_head.Y][player_position_head.X + 1] != 'p3':
-    #                 new_possible_actions.append(action)
-    #                 print('RIGHT')
-    #     print(len(new_possible_actions))  
-    #     return new_possible_actions
-
-    # def calculate_risk(dir):
-    
     
     def get_players_position(turn_info):
         players_position = {}
