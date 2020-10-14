@@ -85,7 +85,9 @@ class Brain(metaclass=Singleton):
             movement.append(Direction._LEFT)
         return movement
     
+
     def MovementDeBase(currentPlayer, turn_info)
+
         movement = [Direction._UP, Direction._UP, Direction._RIGHT, Direction._DOWN, Direction._LEFT]
         movement = Brain.CalculMovement(movement)
         mouvementsPossibles = Brain.ObstacleCheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
@@ -105,7 +107,8 @@ class Brain(metaclass=Singleton):
         Brain.directions_possibles = Brain.DIRECTIONS_POSSIBLES
         players = Brain.get_players_position(turn_info) 
         currentPlayer = players[str(turn_info.SelfId)]
-        return MovementDeBase(currentPlayer, turn_info)
+
+        return Brain.MovementDeBase(currentPlayer, turn_info)
         #return Brain.ObstacleCheck(currentPlayer.Head, Brain.directions_possibles, turn_info)[0]
 
     def on_finalized(turn_info: TurnInformation):
