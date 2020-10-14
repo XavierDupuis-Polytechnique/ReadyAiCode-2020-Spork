@@ -15,7 +15,7 @@ class Brain(metaclass=Singleton):
     DIRECTIONS_POSSIBLES = [Direction._UP, Direction._DOWN, Direction._RIGHT, Direction._LEFT, Direction._NONE]
     directions_possibles = DIRECTIONS_POSSIBLES
     retournerBody = False
-    nombreNeck = 5
+    nombreNeck = 3
     updateCounter1 = False
     updateCounter2 = False
 
