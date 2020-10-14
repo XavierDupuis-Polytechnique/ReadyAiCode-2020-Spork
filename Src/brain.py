@@ -31,23 +31,23 @@ class Brain(metaclass=Singleton):
         #print(i, j)
         for action in possible_actions:
             # Check if wall up.
-            if action == Direction._UP:
-                if (map2d[j - 1][i] != 'W') and (map2d[j - 1][i] != ('p' + str(turn_info.SelfId))) and (map2d[j - 1][i] != 'B') and (map2d[j - 1][i] != 'I') and (map2d[j - 1][i] != 'D'):
+            if action == Direction._UP: #p3 in mapcase =! True ('p' + str(turn_info.SelfId)) not in map2d[j - 1][i]
+                if (map2d[j - 1][i] != 'W') and (('p' + str(turn_info.SelfId)) not in map2d[j - 1][i]) and (map2d[j - 1][i] != 'B') and (map2d[j - 1][i] != 'I') and (map2d[j - 1][i] != 'D'):
                     new_possible_actions.append(action)
                     print('UP')
             # Check if wall down.
             elif action == Direction._DOWN:
-                if (map2d[j + 1][i] != 'W') and (map2d[j + 1][i] != ('p' + str(turn_info.SelfId))) and (map2d[j + 1][i] != 'B') and (map2d[j + 1][i] != 'I') and (map2d[j + 1][i] != 'D'):
+                if (map2d[j + 1][i] != 'W') and (('p' + str(turn_info.SelfId)) not in map2d[j + 1][i]) and (map2d[j + 1][i] != 'B') and (map2d[j + 1][i] != 'I') and (map2d[j + 1][i] != 'D'):
                     new_possible_actions.append(action)
                     print('DOWN')
             # Check if wall left.
             elif action == Direction._LEFT:
-                if (map2d[j][i- 1] != 'W') and (map2d[j][i - 1] != ('p' + str(turn_info.SelfId))) and (map2d[j][i - 1] != 'B') and (map2d[j][i - 1] != 'I') and (map2d[j][i - 1] != 'D'):
+                if (map2d[j][i- 1] != 'W') and (('p' + str(turn_info.SelfId)) not in map2d[j][i - 1]) and (map2d[j][i - 1] != 'B') and (map2d[j][i - 1] != 'I') and (map2d[j][i - 1] != 'D'):
                     new_possible_actions.append(action)
                     print('LEFT')
             # Check if wall right.
             elif action == Direction._RIGHT:
-                if (map2d[j][i + 1] != 'W') and (map2d[j][i + 1] != ('p' + str(turn_info.SelfId))) and (map2d[j][i + 1] != 'B') and (map2d[j][i + 1] != 'I') and (map2d[j][i + 1] != 'D'):
+                if (map2d[j][i + 1] != 'W') and (('p' + str(turn_info.SelfId)) not in map2d[j][i + 1]) and (map2d[j][i + 1] != 'B') and (map2d[j][i + 1] != 'I') and (map2d[j][i + 1] != 'D'):
                     new_possible_actions.append(action)
                     print('RIGHT')
         #print(len(new_possible_actions))  
