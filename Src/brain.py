@@ -194,7 +194,7 @@ class Brain(metaclass=Singleton):
         print(Brain.DistanceBody(turn_info))
 
 
-        if(Brain.DistanceBody(turn_info) >= Brain.nombreNeck):
+        if(Brain.DistanceBody(turn_info) >= 2):
             Brain.retournerBody = True
 
         if(Brain.DistanceBody(turn_info) == 0):
