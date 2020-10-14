@@ -157,24 +157,22 @@ class Brain(metaclass=Singleton):
             if (DistanceY < 0):
                 if Direction._DOWN in mouvementsPossibles:
                     return Direction._DOWN
-                return random.choice(mouvementsPossibles)
-                # elif Direction._UP in mouvementsPossibles:
-                #     return Direction._UP
-                # elif Direction._LEFT in mouvementsPossibles:
-                #     return Direction._LEFT
-                # else:
-                #     return Direction._RIGHT
+                elif Direction._LEFT in mouvementsPossibles:
+                    return Direction._LEFT
+                elif Direction._RIGHT in mouvementsPossibles:
+                    return Direction._RIGHT
+                else:
+                    return Direction._UP
                     
             elif (DistanceY > 0):
                 if Direction._UP in mouvementsPossibles:
                     return Direction._UP
-                return random.choice(mouvementsPossibles)
-                # elif Direction._DOWN in mouvementsPossibles:
-                #     return Direction._DOWN
-                # elif Direction._LEFT in mouvementsPossibles:
-                #     return Direction._LEFT
-                # else:
-                #     return Direction._RIGHT        
+                elif Direction._LEFT in mouvementsPossibles:
+                    return Direction._LEFT
+                elif Direction._RIGHT in mouvementsPossibles:
+                    return Direction._RIGHT        
+                else:
+                    return Direction._DOWN
 
     def DistanceBody(turn_information):
         player = Brain.get_players_position(turn_information)[str(turn_information.SelfId)]
