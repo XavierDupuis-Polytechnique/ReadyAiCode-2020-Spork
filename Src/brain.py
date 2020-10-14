@@ -86,7 +86,7 @@ class Brain(metaclass=Singleton):
         return movement
     
 
-    def MovementDeBase(currentPlayer, turn_info)
+    def MovementDeBase(currentPlayer, turn_info):
 
         movement = [Direction._UP, Direction._UP, Direction._RIGHT, Direction._DOWN, Direction._LEFT]
         movement = Brain.CalculMovement(movement)
