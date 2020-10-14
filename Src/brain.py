@@ -92,7 +92,7 @@ class Brain(metaclass=Singleton):
         for i in range(len(player.Body)):
             DistanceTestX = player.Head.X - player.Body[i].X
             DistanceTestY = player.Head.Y - player.Body[i].Y
-            DistanceTotalTest = DistanceTestX + DistanceTestY
+            DistanceTotalTest = abs(DistanceTestX) + abs(DistanceTestY)
             if(DistanceTotalTest < DistanceTotal):
                 DistanceTotal = DistanceTotalTest
                 indice = i
@@ -184,15 +184,15 @@ class Brain(metaclass=Singleton):
 
         currentPlayer = Brain.get_players_position(turn_info)[str(turn_info.SelfId)]
 
-        # Counter Update 1
-        if(Brain.counter >= 10 and Brain.updateCounter1 != True):
-            Brain.nombreNeck -= 1
-            Brain.updateCounter1 = True
+        # # Counter Update 1
+        # if(Brain.counter >= 10 and Brain.updateCounter1 != True):
+        #     Brain.nombreNeck -= 1
+        #     Brain.updateCounter1 = True
         
-        # Counter Update 2
-        if(Brain.counter >= 15 and Brain.updateCounter2 != True) :
-            Brain.nombreNeck -= 1
-            Brain.updateCounter2 = True
+        # # Counter Update 2
+        # if(Brain.counter >= 15 and Brain.updateCounter2 != True) :
+        #     Brain.nombreNeck -= 1
+        #     Brain.updateCounter2 = True
         
         print(Brain.DistanceBody(turn_info))
 
