@@ -150,7 +150,6 @@ class Brain(metaclass=Singleton):
                 else:
                     return Direction._LEFT
             
-
         elif (DistanceX == 0):
             if (DistanceY < 0):
                 if Direction._DOWN in mouvementsPossibles:
@@ -173,21 +172,7 @@ class Brain(metaclass=Singleton):
 
     def DistanceBody(turn_information):
         player = Brain.get_players_position(turn_information)[str(turn_information.SelfId)]
-        # DistanceX = 200
-        # DistanceY = 200
-        # DistanceTotal = DistanceX + DistanceY
-        # DistanceTestX = 0
-        # DistanceTestY = 0
-        # DistanceTotalTest = DistanceTestX + DistanceTestY
-        # for i in range(len(player.Body)):
-        #     DistanceTestX = player.Head.X - player.Body[i].X
-        #     DistanceTestY = player.Head.Y - player.Body[i].Y
-        #     DistanceTotalTest = DistanceTestX + DistanceTestY
-        #     if(DistanceTotalTest < DistanceTotal):
-        #         DistanceTotal = DistanceTotalTest
         return len(player.Neck)
-
-    
 
 
     def on_next_move(turn_info: TurnInformation):
@@ -202,7 +187,7 @@ class Brain(metaclass=Singleton):
             Brain.retournerBody = True
         if(Brain.DistanceBody(turn_info) == 0):
             Brain.retournerBody = False
-        print("the game has ended and the received id from the game server is {0} with the following map {1}".format(turn_info.SelfId, turn_info.Map)) 
+        print("the game server wants to know your next move and you have the following informations : the id is {0} and the current map is {1} ".format(turn_info.SelfId, turn_info.Map)) 
         while Brain.retournerBody == True:
             print("Je dois retourner au BODY")
             return Brain.returnToBody(Brain.ObstacleCheck(currentPlayer.Head, Brain.DIRECTIONS_POSSIBLES, turn_info), turn_info)
