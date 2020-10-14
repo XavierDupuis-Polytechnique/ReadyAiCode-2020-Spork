@@ -183,7 +183,7 @@ class Brain(metaclass=Singleton):
         '''
         currentPlayer = Brain.get_players_position(turn_info)[str(turn_info.SelfId)]
         print(Brain.DistanceBody(turn_info))
-        if(Brain.DistanceBody(turn_info) >= 4):
+        if(Brain.DistanceBody(turn_info) >= 3):
             Brain.retournerBody = True
         if(Brain.DistanceBody(turn_info) == 0):
             Brain.retournerBody = False
