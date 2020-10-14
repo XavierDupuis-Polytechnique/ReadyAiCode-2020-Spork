@@ -15,6 +15,9 @@ class Brain(metaclass=Singleton):
     DIRECTIONS_POSSIBLES = [Direction._UP, Direction._DOWN, Direction._RIGHT, Direction._LEFT, Direction._NONE]
     directions_possibles = DIRECTIONS_POSSIBLES
     retournerBody = False
+    nombreNeck = 5
+    updateCounter1 = False
+    updateCounter2 = False
 
     def ObstacleCheck(player_position_head : Vector2, possible_actions, turn_info):
         new_possible_actions = []
@@ -174,20 +177,31 @@ class Brain(metaclass=Singleton):
         player = Brain.get_players_position(turn_information)[str(turn_information.SelfId)]
         return len(player.Neck)
 
-
     def on_next_move(turn_info: TurnInformation):
-        '''
-        YOUR CODE GOES IN THIS FUNCTION. This is where your AI takes a decision on his next move.
-        @param turn_info: Information from the current turn
-        @return: The direction your AI chose as his next move.
-        '''
+
         currentPlayer = Brain.get_players_position(turn_info)[str(turn_info.SelfId)]
+
+        # Counter Update 1
+        if(Brain.counter >= 10 and Brain.updateCounter1 != True):
+            Brain.nombreNeck -= 1
+            Brain.updateCounter1 = True
+        
+        # Counter Update 2
+        if(Brain.counter >= 15 and Brain.updateCounter2 != True) :
+            Brain.nombreNeck -= 1
+            Brain.updateCounter2 = True
+        
         print(Brain.DistanceBody(turn_info))
-        if(Brain.DistanceBody(turn_info) >= 3):
+
+
+        if(Brain.DistanceBody(turn_info) >= Brain.nombreNeck):
             Brain.retournerBody = True
+
         if(Brain.DistanceBody(turn_info) == 0):
             Brain.retournerBody = False
+
         print("the game server wants to know your next move and you have the following informations : the id is {0} and the current map is {1} ".format(turn_info.SelfId, turn_info.Map)) 
+        
         while Brain.retournerBody == True:
             print("Je dois retourner au BODY")
             return Brain.returnToBody(Brain.ObstacleCheck(currentPlayer.Head, Brain.DIRECTIONS_POSSIBLES, turn_info), turn_info)
