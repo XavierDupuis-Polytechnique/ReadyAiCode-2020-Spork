@@ -104,6 +104,7 @@ class Brain(metaclass=Singleton):
         @param turn_info: Information from the current turn
         @return: The direction your AI chose as his next move.
         '''
+        # remise aux directions de base
         Brain.directions_possibles = Brain.DIRECTIONS_POSSIBLES
         players = Brain.get_players_position(turn_info) 
         currentPlayer = players[str(turn_info.SelfId)]
