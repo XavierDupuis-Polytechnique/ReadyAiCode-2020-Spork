@@ -5,6 +5,7 @@ from Src.Models.turnInformation import TurnInformation
 from Src.Models.playerPosition import PlayerPosition
 from Src.Models.vector2 import Vector2
 import numpy as np
+import random
 
 
 class Brain(metaclass=Singleton):
@@ -84,19 +85,51 @@ class Brain(metaclass=Singleton):
             movement.append(Direction._DOWN)
             movement.append(Direction._LEFT)
         return movement
-    
+
+    def RetournerDepart(position_actuel, position_depart):
+        x_relatif = position_depart.X - position_actuel.X
+        y_relatif = position_depart.Y - position_actuel.Y
+        if (x_relatif < 0):
+            
+        Brain.counter = 0
+        for i in (len(movement)/5):
+            movement.append(Direction._DOWN)
+        return movement
 
     def MovementDeBase(currentPlayer, turn_info):
 
         movement = [Direction._UP, Direction._UP, Direction._RIGHT, Direction._DOWN, Direction._LEFT]
         movement = Brain.CalculMovement(movement)
         mouvementsPossibles = Brain.ObstacleCheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
-
+        
         if (movement[Brain.counter] not in mouvementsPossibles):
             return mouvementsPossibles[0]
         else:
             Brain.counter += 1
             return movement[Brain.counter]
+
+    def returnToBody(turn_information):
+        player = Brain.get_players_position(turn_information)[str(turn_information.SelfId)]
+        DistanceX =200
+        DistanceY =200
+        DistanceTotal = DistanceX + DistanceY
+        DistanceTestX = 0
+        DistanceTestY = 0
+        DistanceTotalTest = DistanceTestX + DistanceTestY
+        indice = 0
+        for i in len(player.Body):
+            DistanceTestX = player.Head.X - player.Body[i].X
+            DistanceTestY = player.Head.Y - player.Body[i].Y
+            DistanceTotalTest = DistanceTestX + DistanceTestY
+            if(DistanceTotalTest < DistanceTotal):
+                DistanceTotal = DistanceTotalTest
+                indice = i
+        
+
+
+
+
+
     
     def on_next_move(turn_info: TurnInformation):
         '''
@@ -104,12 +137,14 @@ class Brain(metaclass=Singleton):
         @param turn_info: Information from the current turn
         @return: The direction your AI chose as his next move.
         '''
-        Brain.directions_possibles = Brain.DIRECTIONS_POSSIBLES
-        players = Brain.get_players_position(turn_info) 
-        currentPlayer = players[str(turn_info.SelfId)]
+        # Brain.directions_possibles = Brain.DIRECTIONS_POSSIBLES
+        # players = Brain.get_players_position(turn_info) 
+        # currentPlayer = players[str(turn_info.SelfId)]
 
-        return Brain.MovementDeBase(currentPlayer, turn_info)
+        # return Brain.MovementDeBase(currentPlayer, turn_info)
         #return Brain.ObstacleCheck(currentPlayer.Head, Brain.directions_possibles, turn_info)[0]
+
+        return random.choice(Brain.ObstacleCheck(Brain.directions_possibles))
 
     def on_finalized(turn_info: TurnInformation):
         '''
