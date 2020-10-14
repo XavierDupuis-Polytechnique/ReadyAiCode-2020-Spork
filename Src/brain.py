@@ -211,6 +211,8 @@ class Brain(metaclass=Singleton):
 
     def on_finalized(turn_info: TurnInformation):
         Brain.counter = 0
+        Brain.updateCounter1 = False
+        Brain.updateCounter2 = False
         '''
         Once the game is finished, this method is triggered with the final state of the map. 
         It could be used to train the AI for example.
