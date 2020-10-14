@@ -10,18 +10,9 @@ import numpy as np
 class Brain(metaclass=Singleton):
     # Random variable globale
     #MEMO playerID : turn_info.SelfId, map : turn_info.Map
-    step_compter = 0
+    counter = 0
     DIRECTIONS_POSSIBLES = [Direction._UP, Direction._DOWN, Direction._RIGHT, Direction._LEFT, Direction._NONE]
     directions_possibles = DIRECTIONS_POSSIBLES
-
-    #remove direction "removeDirection" from array
-    #Brain.directions_possibles.pop(directions_possibles.index(removeDirection))
-
-    #MUR
-    
-    #PlayerPosition.Head = vector2()
-    #PlayerPosition.Body = []
-    #PlayerPosition.Neck = []
 
     def ObstacleCheck(player_position_head : Vector2, possible_actions, turn_info):
         new_possible_actions = []
@@ -36,22 +27,22 @@ class Brain(metaclass=Singleton):
         for action in possible_actions:
             # Check if wall up.
             if action == Direction._UP:
-                if (map2d[j - 1][i] != 'W') and (map2d[j - 1][i] != ('p' + str(turn_info.SelfId))) :
+                if (map2d[j - 1][i] != 'W') and (map2d[j - 1][i] != ('p' + str(turn_info.SelfId))) and (map2d[j - 1][i] != 'B'):
                     new_possible_actions.append(action)
                     print('UP')
             # Check if wall down.
             elif action == Direction._DOWN:
-                if (map2d[j + 1][i] != 'W') and (map2d[j + 1][i] != ('p' + str(turn_info.SelfId))) :
+                if (map2d[j + 1][i] != 'W') and (map2d[j + 1][i] != ('p' + str(turn_info.SelfId))) and (map2d[j + 1][i] != 'B'):
                     new_possible_actions.append(action)
                     print('DOWN')
             # Check if wall left.
             elif action == Direction._LEFT:
-                if (map2d[j][i- 1] != 'W') and (map2d[j][i - 1] != ('p' + str(turn_info.SelfId))) :
+                if (map2d[j][i- 1] != 'W') and (map2d[j][i - 1] != ('p' + str(turn_info.SelfId))) and (map2d[j + 1][i] != 'B'):
                     new_possible_actions.append(action)
                     print('LEFT')
             # Check if wall right.
             elif action == Direction._RIGHT:
-                if (map2d[j][i + 1] != 'W') and (map2d[j][i + 1] != ('p' + str(turn_info.SelfId))) :
+                if (map2d[j][i + 1] != 'W') and (map2d[j][i + 1] != ('p' + str(turn_info.SelfId))) and (map2d[j + 1][i] != 'B'):
                     new_possible_actions.append(action)
                     print('RIGHT')
         print(len(new_possible_actions))  
@@ -93,40 +84,29 @@ class Brain(metaclass=Singleton):
             movement.append(Direction._DOWN)
             movement.append(Direction._LEFT)
         return movement
-                      
+    
+    def MovementDeBase(currentPlayer, turn_info):
+        movement = [Direction._UP, Direction._UP, Direction._RIGHT, Direction._DOWN, Direction._LEFT]
+        movement = Brain.CalculMovement(movement)
+        mouvementsPossibles = Brain.ObstacleCheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
+
+        if (movement[Brain.counter] not in mouvementsPossibles):
+            return mouvementsPossibles[0]
+        else:
+            Brain.counter += 1
+            return movement[Brain.counter]
     
     def on_next_move(turn_info: TurnInformation):
-        Brain.directions_possibles = Brain.DIRECTIONS_POSSIBLES
         '''
         YOUR CODE GOES IN THIS FUNCTION. This is where your AI takes a decision on his next move.
         @param turn_info: Information from the current turn
         @return: The direction your AI chose as his next move.
         '''
+        Brain.directions_possibles = Brain.DIRECTIONS_POSSIBLES
         players = Brain.get_players_position(turn_info) 
-        #print("La position de la tete est: ", players[str(turn_info.SelfId)].Head.X, players[str(turn_info.SelfId)].Head.Y)
-        
-        #print("the game server wants to know your next move and you have the following informations : the id is {0} and the current map is {1} ".format(turn_info.SelfId, turn_info.Map))
-        # As a default we put that the direction to UP.
-        # new_possibles = wallcheck(Brain.directions_possibles)
-        Brain.step_compter+=1
         currentPlayer = players[str(turn_info.SelfId)]
-        #return Brain.directions_possibles[Brain.step_compter%len(Brain.directions_possibles)]
-        
-        #Brain.directions_possibles = Brain.neckcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
-        #Brain.directions_possibles = Brain.wallcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
-        # (b[0],b[1]) = (b[1],b[0])
-        movement = [Direction._UP, Direction._UP, Direction._RIGHT, Direction._DOWN, Direction._LEFT]
-        movement = Brain.CalculMovement(movement)
-        
-        mouvementsPossibles = Brain.ObstacleCheck(currentPlayer.Head, Brain.directions_possibles, turn_info)
-
-        if (movement[Brain.step_compter] not in mouvementsPossibles):
-            return mouvementsPossibles[0]
-        else:
-            Brain.step_compter +=1
-            return movement[Brain.step_compter]
-        
-        #return Brain.wallcheck(currentPlayer.Head, Brain.directions_possibles, turn_info)[0]
+        return Brain.MovementDeBase(currentPlayer, turn_info)
+        #return Brain.ObstacleCheck(currentPlayer.Head, Brain.directions_possibles, turn_info)[0]
 
     def on_finalized(turn_info: TurnInformation):
         '''
