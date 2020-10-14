@@ -96,6 +96,8 @@ class Brain(metaclass=Singleton):
             return mouvementsPossibles[0]
         else:
             Brain.counter += 1
+            print('Brain.counter', Brain.counter)
+            print('len(mouvement)', len(movement))
             return movement[Brain.counter]
     
     def on_next_move(turn_info: TurnInformation):
@@ -113,6 +115,7 @@ class Brain(metaclass=Singleton):
         #return Brain.ObstacleCheck(currentPlayer.Head, Brain.directions_possibles, turn_info)[0]
 
     def on_finalized(turn_info: TurnInformation):
+        Brain.counter = 0
         '''
         Once the game is finished, this method is triggered with the final state of the map. 
         It could be used to train the AI for example.
